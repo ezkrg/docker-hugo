@@ -1,0 +1,32 @@
+kind: pipeline
+type: docker
+name: default
+
+steps:
+  - name: source
+    image: alpine:3.11
+    commands:
+      - apk add --update --no-cache curl git
+      - git clone -n https://github.com/gohugoio/hugo.git
+      - cd hugo
+      - LATEST=$(git describe --abbrev=0)
+      - if curl -sfL https://hub.docker.com/v2/repositories/ezkrg/hugo/tags/$LATEST > /dev/null; then exit 78; fi
+      - git checkout $LATEST
+      - cd ..
+      - echo -n "$LATEST,latest" > .tags
+
+  - name: release
+    image: plugins/docker
+    settings:
+      username:
+        from_secret: DHU
+      password:
+        from_secret: DHP
+      repo: ezkrg/hugo
+      context: hugo
+      dockerfile: hugo/Dockerfile
+      when:
+        event:
+          - cron
+        cron:
+          - nightly

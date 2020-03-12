@@ -26,6 +26,8 @@ steps:
       repo: ezkrg/hugo
       context: hugo
       dockerfile: hugo/Dockerfile
+      build_args:
+        - HUGO_BUILD_TAGS=extended
       when:
         event:
           - cron
@@ -33,6 +35,6 @@ steps:
           - nightly
 ---
 kind: signature
-hmac: e0529f387485fa028be07bf65bd31466f4437057361a09a3eb4efebe013662be
+hmac: de435705328504007263cda7770a1fd83a88c71cc928203984f455e836271147
 
 ...

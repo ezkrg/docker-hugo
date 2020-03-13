@@ -7,13 +7,10 @@ steps:
   - name: source
     image: alpine:3.11
     commands:
-      - apk add --update --no-cache curl git
-      - git clone -n https://github.com/gohugoio/hugo.git
-      - cd hugo
-      - LATEST=$(git describe --abbrev=0)
+      - apk add --update --no-cache curl git jq
+      - LATEST=$(curl -s https://api.github.com/repos/gohugoio/hugo/releases/latest | jq -r ".tag_name")
       - if curl -sfL https://hub.docker.com/v2/repositories/ezkrg/hugo/tags/$LATEST > /dev/null; then exit 78; fi
-      - git checkout $LATEST
-      - cd ..
+      - git clone -b $LATEST https://github.com/gohugoio/hugo.git
       - echo -n "$LATEST,latest" > .tags
 
   - name: release

@@ -9,7 +9,7 @@ steps:
     commands:
       - apk add --update --no-cache curl git jq
       - LATEST=$(curl -s https://api.github.com/repos/gohugoio/hugo/releases/latest | jq -r ".tag_name")
-      - if curl -sfL https://hub.docker.com/v2/repositories/ezkrg/hugo/tags/$LATEST > /dev/null; then exit 78; fi
+      - if curl -sfL https://hub.docker.com/v2/repositories/ezkrg/hugo/tags/$LATEST > /dev/null; then echo "tag $LATEST already exist"; exit 78; fi
       - git clone -b $LATEST https://github.com/gohugoio/hugo.git
       - echo -n "$LATEST,latest" > .tags
 

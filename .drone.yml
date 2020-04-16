@@ -25,13 +25,13 @@ steps:
       dockerfile: hugo/Dockerfile
       build_args:
         - HUGO_BUILD_TAGS=extended
-      when:
-        event:
-          - cron
-        cron:
-          - nightly
+    when:
+      event:
+      - cron
+      cron:
+      - nightly
 ---
 kind: signature
-hmac: 2a9ad20df28ec69e79803cbea409a450133ab3bd686c8c49598eb2581c23788d
+hmac: 0871579bd7efbfdc4905b602c9cbc7f050caf61bd5d3429bf5bfe8b9358125e7
 
 ...
